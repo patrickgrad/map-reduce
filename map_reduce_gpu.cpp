@@ -171,7 +171,6 @@ void Emit(const string & value)
 }
 
 // Implemented by end user
-#pragma acc routine seq
 void map0(const string & key, const string & value)
 {
     int i = atoi(key.c_str()) + 1;
