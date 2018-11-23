@@ -105,7 +105,8 @@ int main()
             #pragma acc kernels
             for(unsigned int j = 0; j < values_len; j++)
             {
-                map(key, values[j]);
+                //map(key, values[j]);
+                values[j] += 1;
             }
         }
 
