@@ -105,8 +105,8 @@ int main()
             #pragma acc kernels
             for(unsigned int j = 0; j < values_len; j++)
             {
-                //map(key, values[j]);
-                values[j] += 1;
+                map(key, values[j]);
+                // values[j] += 1;
             }
         }
 
@@ -160,6 +160,7 @@ int main()
 }
 
 // Part of Map-Reduce implementation
+#pragma acc routine
 void EmitIntermediate(const string & key, const string & value)
 {
     data_temp[key].push_back(value);
@@ -172,6 +173,7 @@ void Emit(const string & value)
 }
 
 // Implemented by end user
+#pragma acc routine
 void map0(const string & key, const string & value)
 {
     int i = atoi(key.c_str()) + 1;
