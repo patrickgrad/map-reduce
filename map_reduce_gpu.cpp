@@ -102,7 +102,7 @@ int main()
             unsigned int values_len = (it->second).size();
             void (*map)(const string &, const string &) = map_kernels[i];
 
-            #pragma acc parallel loop
+            #pragma acc kernel
             for(unsigned int j = 0; j < values_len; j++)
             {
                 map(key, values[j]);
