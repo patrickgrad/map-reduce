@@ -92,12 +92,15 @@ int main()
     for(unsigned int i = 0 ; i < n; i++)
     {
         // Section is data parallel
-        #pragma acc kernels copyin(data_input), copyout(map_kernels)
         for(map<string, vector<string> >::iterator it = data_input.begin(); it != data_input.end(); it++)
         {
-            for(unsigned int j = 0; j < it->second.size(); j++)
+            string key = it->first;
+            vector<string> values = it->second;
+
+            #pragma acc kernels copyin(key, values[0:values.size()], map_kernels[0:n])
+            for(unsigned int j = 0; j < values.size(); j++)
             {
-                map_kernels[i](it->first, it->second[j]);
+                map_kernels[i](key, values[j]);
             }
         }
 
