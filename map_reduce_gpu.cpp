@@ -64,8 +64,8 @@ static map<string, vector<string> > data_input;
 static map<string, vector<string> > data_temp;
 static unsigned int n;
 static string reduce_key;
-static vector<void ((*)(const string &, const string &))> map_kernels;
-static vector<void ((*)(const string &, const vector<string> &))> reduce_kernels;
+static vector<void ((*)(const string &, const string &))> map_kernels_vector;
+static vector<void ((*)(const string &, const vector<string> &))> reduce_kernels_vector;
 
 // Part of Map-Reduce implementation
 void EmitIntermediate(const string & key, const string & value);
@@ -79,8 +79,8 @@ int main()
 {
     // Setup kernels
     n = 1;
-    map_kernels.push_back(&map0);
-    reduce_kernels.push_back(&reduce0);
+    map_kernels_vector.push_back(&map0);
+    reduce_kernels_vector.push_back(&reduce0);
 
     // Setup input data
     data_input["0"].push_back("1");
@@ -88,6 +88,9 @@ int main()
     data_input["0"].push_back("3");
 
     data_input["1"].push_back("1");
+
+    void (**map_kernels)(const string &, const string &) = map_kernels_vector.data();
+    void (**reduce_kernels)(const string &, const vector<string> &) = reduce_kernels_vector.data();
 
     for(unsigned int i = 0 ; i < n; i++)
     {
