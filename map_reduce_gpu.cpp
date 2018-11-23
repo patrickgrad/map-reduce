@@ -95,8 +95,8 @@ int main()
         for(map<string, vector<string> >::iterator it = data_input.begin(); it != data_input.end(); it++)
         {
             string key = it->first;
-            vector<string> values = it->second;
-            unsigned int values_len = values.size();
+            string * values = (it->second).data();
+            unsigned int values_len = (it->second).size();
 
             #pragma acc parallel loop
             for(unsigned int j = 0; j < values_len; j++)
