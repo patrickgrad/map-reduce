@@ -92,8 +92,8 @@ int main()
     for(unsigned int i = 0 ; i < n; i++)
     {
         // Section is data parallel
-        map<string, vector<string> >::iterator it;
-        for(it = data_input.begin(); it != data_input.end(); it++)
+        #pragma acc kernels copyin(data_input), copyout(map_kernels)
+        for(map<string, vector<string> >::iterator it = data_input.begin(); it != data_input.end(); it++)
         {
             for(unsigned int j = 0; j < it->second.size(); j++)
             {
@@ -106,7 +106,7 @@ int main()
         data_temp.clear();
 
         // Section is data parallel
-        for(it = data_input.begin(); it != data_input.end(); it++)
+        for(map<string, vector<string> >::iterator it = data_input.begin(); it != data_input.end(); it++)
         {
             reduce_key = it->first;
             reduce_kernels[i](it->first, it->second);
