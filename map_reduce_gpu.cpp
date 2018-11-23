@@ -96,9 +96,10 @@ int main()
         {
             string key = it->first;
             vector<string> values = it->second;
+            unsigned int values_len = values.size();
 
-            #pragma acc kernels copyin(key, values[0:values.size()], map_kernels[0:n])
-            for(unsigned int j = 0; j < values.size(); j++)
+            #pragma acc parallel loop
+            for(unsigned int j = 0; j < values_len; j++)
             {
                 map_kernels[i](key, values[j]);
             }
