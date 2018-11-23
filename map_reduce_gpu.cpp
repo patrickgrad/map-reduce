@@ -89,8 +89,8 @@ int main()
 
     data_input["1"].push_back("1");
 
-    void (** restrict map_kernels)(const string &, const string &) = map_kernels_vector.data();
-    void (** restrict reduce_kernels)(const string &, const vector<string> &) = reduce_kernels_vector.data();
+    void (**map_kernels)(const string &, const string &) = map_kernels_vector.data();
+    void (**reduce_kernels)(const string &, const vector<string> &) = reduce_kernels_vector.data();
 
     for(unsigned int i = 0 ; i < n; i++)
     {
@@ -100,11 +100,12 @@ int main()
             string key = it->first;
             string * values = (it->second).data();
             unsigned int values_len = (it->second).size();
+            void (*map)(const string &, const string &) = map_kernels[i];
 
             #pragma acc parallel loop
             for(unsigned int j = 0; j < values_len; j++)
             {
-                map_kernels[i](key, values[j]);
+                map(key, values[j]);
             }
         }
 
